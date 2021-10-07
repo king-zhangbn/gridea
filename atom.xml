@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://king-zhangbn.github.io/gridea/</id>
+    <title>Gridea</title>
+    <updated>2021-10-07T01:14:31.138Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://king-zhangbn.github.io/gridea/"/>
+    <link rel="self" href="https://king-zhangbn.github.io/gridea/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://king-zhangbn.github.io/gridea/images/avatar.png</logo>
+    <icon>https://king-zhangbn.github.io/gridea/favicon.ico</icon>
+    <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[在GITHUB PAGE上部署VUEPRESS]]></title>
+        <id>https://king-zhangbn.github.io/gridea/post/zai-github-page-shang-bu-shu-vuepress/</id>
+        <link href="https://king-zhangbn.github.io/gridea/post/zai-github-page-shang-bu-shu-vuepress/">
+        </link>
+        <updated>2021-10-06T07:48:42.000Z</updated>
+        <content type="html"><![CDATA[<pre><code class="language-apl">&gt;vuepress用于迅速搭建技术文档网站与个人博客，简单快捷
+
+</code></pre>
+<p>有阅读障碍的同学，可以跳过第一至四节，下载我写好的<a href="https://github.com/zhangyunchencc/vuepress-devkit.git">工具包</a>:<br>
+<code>git clone https://github.com/zhangyunchencc/vuepress-devkit.git</code><br>
+然后从第五节开始看。</p>
+<h2 id="一-为什么你需要一个博客">一、为什么你需要一个博客？</h2>
+<p>优秀的程序员都在写博客，写博客有很多好处：</p>
+<ul>
+<li>帮助自己梳理、总结、理解知识点（个人提升）</li>
+<li>帮助别人理解知识点（好人一生平安）</li>
+<li>简历更好看，更多面试机会（升职加薪）</li>
+</ul>
+<h2 id="二-什么是-vuepress为什么要使用-vuepress">二、什么是 VuePress，为什么要使用 VuePress ？</h2>
+<p><strong>VuePress</strong> 是尤雨溪（vue.js 框架作者）4月12日发布的一个全新的基于 vue 的静态网站生成器，实际上就是一个 vue 的 spa 应用，内置 webpack，可以用来写文档。详见 <a href="https://vuepress.docschina.org/">VuePress中文网</a></p>
+<p>其实类似的建站工具有很多，比如 WordPress、Jekyll、Hexo 等，其中 WordPress 需要自己购买虚拟主机，不考虑；Jekyll 是 Github-Page 默认支持的，听说操作比较复杂，没有用过不做过多评价了；Hexo 之前一直在用，但一直觉得主题不好看，风格不够简洁优雅。自从遇见 VuePress，嗯，就是它了~</p>
+<p>VuePress 有很多优点：</p>
+<ul>
+<li>界面简洁优雅（个人感觉比 HEXO 好看）</li>
+<li>容易上手（半小时能搭好整个项目）</li>
+<li>更好的兼容、扩展 Markdown 语法</li>
+<li>响应式布局，PC端、手机端</li>
+<li>Google Analytics 集成</li>
+<li>支持 PWA</li>
+</ul>
+<h2 id="三-开始搭建">三、开始搭建</h2>
+<h3 id="创建项目文件夹">创建项目文件夹</h3>
+<p>可以右键手动新建，也可以使用 mkdir 命令新建：</p>
+<pre><code>mkdir vuepressBlogDemo
+</code></pre>
+<h3 id="全局安装-vuepress">全局安装 VuePress</h3>
+<pre><code>npm install -g vuepress
+</code></pre>
+<h3 id="进入-vuepressblogdemo-文件夹初始化项目">进入 vuepressBlogDemo 文件夹，初始化项目</h3>
+<p>使用 <code>npm init</code> 或 <code>npm init -y</code>（默认yes）</p>
+<pre><code>npm init -y
+</code></pre>
+<h3 id="创建文件夹和文件">创建文件夹和文件</h3>
+<p>在 vuepressBlogDemo 文件夹中创建 docs 文件夹，在 docs 中创建 .vuepress 文件夹，在.vuepress中创建 public 文件夹和 config.js 文件，最终项目结构如下所示：</p>
+<pre><code>vuepressBlogDemo
+├─── docs
+│   ├── README.md
+│   └── .vuepress
+│       ├── public
+│       └── config.js
+└── package.json
+</code></pre>
+<h3 id="在-configjs-文件中配置网站标题-描述-主题等信息">在 config.js 文件中配置网站标题、描述、主题等信息</h3>
+<pre><code>module.exports = {
+  title: 'Chen\'s blog',
+  description: '我的个人网站',
+  head: [ // 注入到当前页面的 HTML &lt;head&gt; 中的标签
+    ['link', { rel: 'icon', href: '/logo.jpg' }], // 增加一个自定义的 favicon(网页标签的图标)
+  ],
+  base: '/', // 这是部署到github相关的配置
+  markdown: {
+    lineNumbers: false // 代码块显示行号
+  },
+  themeConfig: {
+    nav:[ // 导航栏配置
+      {text: '前端基础', link: '/accumulate/' },
+      {text: '算法题库', link: '/algorithm/'},
+      {text: '微博', link: 'https://baidu.com'}      
+    ],
+    sidebar: 'auto', // 侧边栏配置
+    sidebarDepth: 2, // 侧边栏显示2级
+  }
+};
+</code></pre>
+<h3 id="在-packagejson-文件里添加两个启动命令">在 package.json 文件里添加两个启动命令</h3>
+<pre><code>&quot;scripts&quot;: {
+  &quot;dev&quot;: &quot;vuepress dev docs&quot;,
+  &quot;build&quot;: &quot;vuepress build docs&quot;
+}
+</code></pre>
+<h3 id="一切就绪-跑起来看看吧">一切就绪 跑起来看看吧</h3>
+<pre><code>npm run dev
+</code></pre>
+<h2 id="四-一些小亮点">四、一些小亮点</h2>
+<p>完成了基础搭建后，就可以在docs目录下新建 <code>.md</code> 文件写文章了（.md 是 Markdown 语法文件，你需要知道 Markdown 的一些基本写法，很简单，这里给大家一份 <a href="https://www.jianshu.com/p/b03a8d7b1719">Markdown 语法整理大集合</a>）</p>
+<p>下面给大家安利一些实用的方法。</p>
+<h3 id="代码块高亮">代码块高亮</h3>
+<p>在 .md 文件中书写代码时，可在 ``` 后增加 js、html、json等格式类型，代码块即可按照指定类型高亮</p>
+<figure data-type="image" tabindex="1"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281634347.png" alt="image-20210828163434850" loading="lazy"></figure>
+<h2 id="五-部署上线">五、部署上线</h2>
+<p>说了这么多都是在本地进行的，现在我们要把本地的内容推送到某个服务器上，这样只要有网络，就可以随时随地看自己的网站了。</p>
+<p>一般来说，有两种方案可供选择：</p>
+<ol>
+<li>自己买一个服务器，阿里云、腾讯云等，这种方式的好处是速度有保证、可以被搜索引擎收录，坏处是要花钱啊 土豪同学可以考虑。</li>
+<li>使用 <a href="https://pages.github.com/">Github Pages</a> 。什么是 Github Pages 呢？简单说就是 Github 提供的、用于搭建个人网站的静态站点托管服务。很多人用它搭建个人博客。这种方式的好处是免费、方便，坏处是速度可能会有些慢、不能被国内的搜索引擎收录。</li>
+</ol>
+<p>最终我选择了方案2，下面将给大家讲解如何使用 Github Pages 服务。</p>
+<p>登陆 GitHub账号，打开 github 网站，登陆自己的 github 账号（没有账号的快去注册并面壁思过作为一个优秀的程序员为啥连一个github账号都没有）</p>
+<p>接着我们新建两个仓库，</p>
+<h3 id="新建仓库-usernamegithubio">新建仓库： USERNAME.github.io</h3>
+<blockquote>
+<p>注意！<br>
+USERNAME 必须是你 Github 的账号名称，不是你的名字拼音，也不是你的非主流网名，不要瞎起，要保证和Github账号名一模一样！</p>
+</blockquote>
+<p>例如我的 Github 账号名称是 <code>king-zhangbn</code></p>
+<figure data-type="image" tabindex="2"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281605653.png" alt="image-20210828160534984" loading="lazy"></figure>
+<p>那么新建仓库，Repository name 就填写为：king-zhangbn<code>.github.io</code></p>
+<figure data-type="image" tabindex="3"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281607620.png" alt="image-20210828160731272" loading="lazy"></figure>
+<p>因为我已经搭建好了，这里会报错</p>
+<h3 id="下载工具包">下载工具包</h3>
+<p>这个项目是用来开发博客的，以后只需要改这个项目就够了。</p>
+<ul>
+<li>使用工具包的，将 <a href="https://github.com/zhangyunchencc/vuepress-devkit.git">vuepress-devkit</a> 中的内容拷贝到 vuepressBlog 文件夹中</li>
+<li>自己从头搭建的，将 vuepressBlogDemo 文件夹的内容拷贝到仓库二，并在根目录下创建 deploy.sh 文件，内容如下：</li>
+</ul>
+<pre><code>#!/usr/bin/env sh
+
+# 确保脚本抛出遇到的错误
+set -e
+
+# 生成静态文件
+npm run build
+
+# 进入生成的文件夹
+cd docs/.vuepress/dist
+
+# 如果是发布到自定义域名
+# echo 'www.yourwebsite.com' &gt; CNAME
+
+git init
+git add -A
+git commit -m 'deploy'
+
+# 如果你想要部署到 https://USERNAME.github.io
+git push -f git@github.com:USERNAME/USERNAME.github.io.git master
+
+# 如果发布到 https://USERNAME.github.io/&lt;REPO&gt;  REPO=github上的项目
+# git push -f git@github.com:USERNAME/&lt;REPO&gt;.git master:gh-pages
+
+cd -
+</code></pre>
+<h3 id="修改仓库二中的-deploysh-发布脚本">修改仓库二中的 deploy.sh 发布脚本</h3>
+<p>把文件中的 USERNAME 改成 Github 账号名，例如我的账号名是 zhangyunchencc，那么就可以改为：</p>
+<pre><code># 如果你想要部署到 https://USERNAME.github.io
+git push -f git@github.com:king-zhangbn/king-zhangbn.github.io.git master
+</code></pre>
+<p>这样仓库二和仓库一就建立了关联。</p>
+<p>简单说二者的关系是：仓库一负责显示网站内容，我们不需要改动它；日常开发和新增内容，都在仓库二中，并通过 npm run deploy 命令，将代码发布到仓库一。</p>
+<h3 id="在-packagejson-文件夹中添加发布命令使用工具包的请忽略">在 package.json 文件夹中添加发布命令（使用工具包的请忽略）</h3>
+<pre><code>&quot;scripts&quot;: {
+  &quot;deploy&quot;: &quot;bash deploy.sh&quot;
+}
+</code></pre>
+<h3 id="利用git工具部署">利用GIT工具部署</h3>
+<p>点击这个链接<a href="https://git-scm.com/download/win">Git - Downloading Package (git-scm.com)</a>，下载GIT。</p>
+<p><em>下载后傻瓜式一键安装，建议安装在英文目录下</em></p>
+<p>安装完成后在开始菜单中能够找到如下程序</p>
+<p>或者右击桌面，能够看到如下 Git 选项</p>
+<ul>
+<li>GUI 为用户界面模式</li>
+<li>Bash 为命令行模式</li>
+</ul>
+<h4 id="系统配置">系统配置</h4>
+<p>由于git是分布式管理工具，需要输入用户名和邮箱以作为标识，因此，我们按右键打开<code>Git Bash</code>命令框</p>
+<figure data-type="image" tabindex="4"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281639740.png" alt="image-20210828163925985" loading="lazy"></figure>
+<p>在命令行输入下列的命令：</p>
+<pre><code class="language-shell">git config --global user.name &quot;Your Name&quot;
+git config --global user.email &quot;email@example.com&quot;
+</code></pre>
+<p><em>name可以为中文，邮箱建议使用qq邮箱，方便记忆</em></p>
+<h4 id="生成ssh公钥">生成SSH公钥</h4>
+<p>许多 Git 服务器都使用 SSH 公钥进行认证，所以我们也需要配置该公钥</p>
+<pre><code class="language-shell"># 输入如下命令，三次回车即可生成 ssh key
+ssh-keygen -t rsa -C &quot;email@example.com&quot;
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281644058.png" alt="image-20210828164407380" loading="lazy"></figure>
+<h4 id="常用命令">常用命令</h4>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>git status</td>
+<td>查看仓库的改变情况，会有相关的提示操作出现</td>
+</tr>
+<tr>
+<td>git add</td>
+<td>直接添加所有改动的文件</td>
+</tr>
+<tr>
+<td>git commit -m &quot;note&quot;</td>
+<td>确认生成本地的版本，note是 版本特点说明</td>
+</tr>
+<tr>
+<td>git push</td>
+<td>将改动上传到github，若没有指定分支，则需要使用git push origin master</td>
+</tr>
+<tr>
+<td>git log</td>
+<td>查看版本更新情况</td>
+</tr>
+<tr>
+<td>git reset -hard x</td>
+<td>回退到某个本地版本,x为git log中出现的hash值的前七位</td>
+</tr>
+<tr>
+<td>git clean -xf</td>
+<td>清除所有的未提交文件</td>
+</tr>
+</tbody>
+</table>
+<h4 id="在github上配置密钥">在GitHub上配置密钥</h4>
+<p>1、找到生成的SSH文件，C:\Users\<code>yourname</code>\.ssh</p>
+<figure data-type="image" tabindex="6"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281648821.png" alt="image-20210828164800167" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281649008.png" alt="image-20210828164909466" loading="lazy"></figure>
+<p>2、进入GitHub设置</p>
+<figure data-type="image" tabindex="8"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281657056.png" alt="image-20210828165722556" loading="lazy"></figure>
+<p>点击 <strong>New SSH keys</strong></p>
+<p>把刚刚文件夹里面的<code>id_rsa.pub</code>用记事本打开，复制里面的内容到New SSH keys里面</p>
+<figure data-type="image" tabindex="9"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281653592.png" alt="image-20210828165342163" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281655924.png" alt="image-20210828165550428" loading="lazy"></figure>
+<p>点击add，输入密码</p>
+<figure data-type="image" tabindex="11"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281656461.png" alt="image-20210828165636075" loading="lazy"></figure>
+<h4 id="部署">部署</h4>
+<p>进入到你的博客文件夹</p>
+<figure data-type="image" tabindex="12"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281659792.png" alt="image-20210828165940552" loading="lazy"></figure>
+<p>初始化仓库</p>
+<pre><code class="language-powershell">git init
+</code></pre>
+<figure data-type="image" tabindex="13"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img/202108281701998.png" alt="image-20210828170129594" loading="lazy"></figure>
+<p>执行</p>
+<pre><code>bash deploy.sh
+</code></pre>
+<p>完成</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ 利用GitHub和PicGo搭建图床，完全Free]]></title>
+        <id>https://king-zhangbn.github.io/gridea/post/li-yong-github-he-picgo-da-jian-tu-chuang-wan-quan-free/</id>
+        <link href="https://king-zhangbn.github.io/gridea/post/li-yong-github-he-picgo-da-jian-tu-chuang-wan-quan-free/">
+        </link>
+        <updated>2021-10-06T03:08:13.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1图床">1.图床</h3>
+<blockquote>
+<p>图床一般是指储存图片的服务器，有国内和国外之分。国外的图床由于有空间距离等因素决定访问速度很慢影响图片显示速度。国内也分为单线空间、多线空间和cdn加速三种。简而言之，就是能提供一些可以把图片存放到网上并且引用到其他网站使用的服务。</p>
+</blockquote>
+<h3 id="2cdn">2.CDN</h3>
+<blockquote>
+<p>CDN的全称是Content Delivery Network，即内容分发网络。CDN是构建在网络之上的内容分发网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。</p>
+</blockquote>
+<h3 id="3jsdelivr">3.jsDelivr</h3>
+<blockquote>
+<p>jsDelivr 是一个提供含JavaScript库、jQuery插件、CSS框架、字体等Web上常用静态资源的免费开源的 CDN 解决方案。其采用全球CDN加速，确保每个地区的使用者都能获得最好的连接速度，而在大陆地区使用了国内的CDN加速。因此jsDelivr在大陆也有很好的响应速度，jsDelivr可将不同的JavaScript或CSS libraries集合在一起使用，同时，jsDelivr也提供包括npm、GitHub、WordPress等项目的镜像服务。</p>
+</blockquote>
+<h3 id="4github">4.Github</h3>
+<blockquote>
+<p>GitHub 是一个面向开源及私有软件项目的托管平台。额，这个不必多说。</p>
+</blockquote>
+<h3 id="5picgo">5.PicGo</h3>
+<blockquote>
+<p>PicGo 是一款开源跨平台的免费图片上传工具以及图床相册管理软件，它能帮你快速地将图片上传到微博、又拍云、阿里云 OSS、腾讯云 COS、七牛、GitHub、sm.ms、Imgur 等常见的免费图床网站或云存储服务上，并自动复制图片的链接到剪贴板里，使用起来高效便捷。<a href="https://github.com/Molunerfinn/PicGo/releases">下载地址</a></p>
+</blockquote>
+<h2 id="1-下载并打开picgo">1、下载并打开PicGo</h2>
+<figure data-type="image" tabindex="1"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img4/image-20210902175354364.png" alt="image-20210902175354364" loading="lazy"></figure>
+<h2 id="2-进入github新建图床仓库">2、进入GitHub新建图床仓库</h2>
+<figure data-type="image" tabindex="2"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img4/image-20210902175714551.png" alt="image-20210902175714551" loading="lazy"></figure>
+<h2 id="3-配置token">3、配置Token</h2>
+<p>打开账户/Settings/Developer settings/Personal access tokens,点击Generate new token</p>
+<p>[tip type=&quot;yellow&quot;]复制生成的token,（再关闭网页这个token就没法复制了）[/tip]</p>
+<figure data-type="image" tabindex="3"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img4/image-20210902180153867.png" alt="image-20210902180153867" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img4/image-20210902180115942.png" alt="image-20210902180115942" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img4/image-20210902183432400.png" alt="image-20210902183432400" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img4/image-20210902183609852.png" alt="image-20210902183609852" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img4/image-20210902183710687.png" alt="image-20210902183710687" loading="lazy"></figure>
+<h2 id="4-回到picgo进行最后配置">4、回到picgo进行最后配置</h2>
+<p>在第一栏填入你的github名称/repo名称；在第二栏填入你的分支名称，默认为master；在第三栏填入你刚才申请到的Token；第四栏填入你的repo中的储存路径；</p>
+<p><strong>设定仓库名</strong>： 格式为：用户名 / 图床仓库名<br>
+<strong>设定分支名</strong>： master<br>
+<strong>设定Token</strong>： 之前创建的Token<br>
+<strong>指定存储路径</strong>： 在仓库里的路径，如【picgo/】，即会在仓库里新建一个名为picgo的文件夹来存放上传的图片。<br>
+<strong>设定自定义域名</strong>：此处填写的内容会决定你的图片的访问链接，你上传的图片之后可以通过【此处填写的内容/图片路径】的形式来访问（图片路径指仓库里的存储文件夹/图片名称）。由于图片是上传到GitHub仓库中的，所以图片路径理应是<code>https://github.com/用户名/仓库名/文件夹名/图片名</code>，但我们还需要通过免费的CDN——JSDelivr来加速图片（jsDelivr 提供加速 GitHub 仓库的域名 cdn.jsdelivr.net/gh），故此处应填写成<code>https：//cdn.jsdelivr.net/gh/用户名/图床仓库名</code>。之后便可通过<code>https：//cdn.jsdelivr.net/gh/用户名/图床仓库名/文件夹名/图片名</code>来加速访问图片。</p>
+<figure data-type="image" tabindex="8"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img4/image-20210902184055683.png" alt="image-20210902184055683" loading="lazy"></figure>
+<h2 id="5-上传图片完成">5、上传图片，完成</h2>
+<h2 id="6-设置cdn加速">6、设置CDN加速</h2>
+<p>设定自定义域名：</p>
+<pre><code class="language-text">https://cdn.jsdelivr.net/gh/wang1375830242/PicGo/
+https://cdn.jsdelivr.net/gh/用户名/仓库名/
+</code></pre>
+<figure data-type="image" tabindex="9"><img src="https://gitee.com/starfall-dust/tuchuang/raw/master/img4/image-20210902184412019.png" alt="image-20210902184412019" loading="lazy"></figure>
+<h1 id="github图床缺点">Github图床缺点</h1>
+<ol>
+<li>对应储存图片的repo必须是public，如果是pravite，那么图片地址会带有一个随时刷新token，这样虽然repo他人不可见，但是也没法作为图床用</li>
+<li>图床每添加一张，那么会提交一次commit，这样会导致你的github动向表部分一片绿。。。。。虽然这样显得你很活跃，但是真正点进去会发现你的代码更新并没有你真正提交commit的频率高。</li>
+</ol>
+<h1 id="禁止滥用">禁止滥用</h1>
+<p>对于个人MD使用来说，Github是一个相对稳定（微软收购后更加稳定了）、不用付费、可以查看历史、速度还行的图床。但是绝对不适用于大流量的场所，只限于个人小流量使用！！！！！！！！！！！！！！！</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello Gridea]]></title>
+        <id>https://king-zhangbn.github.io/gridea/post/hello-gridea/</id>
+        <link href="https://king-zhangbn.github.io/gridea/post/hello-gridea/">
+        </link>
+        <updated>2018-12-11T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+<!-- more -->
+<p><a href="https://github.com/getgridea/gridea">Github</a><br>
+<a href="https://gridea.dev/">Gridea 主页</a><br>
+<a href="http://fehey.com/">示例网站</a></p>
+<h2 id="特性">特性👇</h2>
+<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
+<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
+<p>🏷️  你可以对文章进行标签分组</p>
+<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
+<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
+<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
+<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
+<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
+<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
+<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
+<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
+<p>未来，它一定会成为你离不开的伙伴</p>
+<p>尽情发挥你的才华吧！</p>
+<p>😘 Enjoy~</p>
+]]></content>
+    </entry>
+</feed>
